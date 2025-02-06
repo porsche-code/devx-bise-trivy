@@ -1404,6 +1404,13 @@
             "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.providers.aws.ec2.Instance"
           }
         },
+        "keypairs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.providers.aws.ec2.KeyPair"
+          }
+        },
         "launchconfigurations": {
           "type": "array",
           "items": {
@@ -1504,6 +1511,31 @@
         "userdata": {
           "type": "object",
           "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.StringValue"
+        }
+      }
+    },
+    "github.com.aquasecurity.trivy.pkg.iac.providers.aws.ec2.KeyPair": {
+      "type": "object",
+      "properties": {
+        "__defsec_metadata": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.Metadata"
+        },
+        "keyname": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.StringValue"
+        },
+        "keynameprefix": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.StringValue"
+        },
+        "publickey": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.StringValue"
+        },
+        "tags": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.MapValue"
         }
       }
     },
