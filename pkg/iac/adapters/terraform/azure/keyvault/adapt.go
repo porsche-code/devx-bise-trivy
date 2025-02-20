@@ -46,6 +46,7 @@ func (a *adapter) adaptVaults(modules terraform.Modules) []keyvault.Vault {
 			NetworkACLs: keyvault.NetworkACLs{
 				Metadata:      iacTypes.NewUnmanagedMetadata(),
 				DefaultAction: iacTypes.StringDefault("", iacTypes.NewUnmanagedMetadata()),
+				IpRules:       iacTypes.StringValueList{},
 			},
 		}
 		for _, secretResource := range orphanResources {
@@ -66,6 +67,7 @@ func (a *adapter) adaptVaults(modules terraform.Modules) []keyvault.Vault {
 			NetworkACLs: keyvault.NetworkACLs{
 				Metadata:      iacTypes.NewUnmanagedMetadata(),
 				DefaultAction: iacTypes.StringDefault("", iacTypes.NewUnmanagedMetadata()),
+				IpRules:       iacTypes.StringValueList{},
 			},
 		}
 		for _, secretResource := range orphanResources {
@@ -82,6 +84,7 @@ func (a *adapter) adaptVault(resource *terraform.Block, module *terraform.Module
 	var secrets []keyvault.Secret
 
 	defaultActionVal := iacTypes.StringDefault("", resource.GetMetadata())
+	ipRulesVal := iacTypes.StringValueList{}
 
 	secretBlocks := module.GetReferencingResources(resource, "azurerm_key_vault_secret", "key_vault_id")
 	for _, secretBlock := range secretBlocks {
@@ -106,6 +109,10 @@ func (a *adapter) adaptVault(resource *terraform.Block, module *terraform.Module
 		aclMetadata = aclBlock.GetMetadata()
 		defaultActionAttr := aclBlock.GetAttribute("default_action")
 		defaultActionVal = defaultActionAttr.AsStringValueOrDefault("", resource.GetBlock("network_acls"))
+		if aclBlock.HasChild("ip_rules") {
+			ipRulesAttr := aclBlock.GetAttribute("ip_rules")
+			ipRulesVal = ipRulesAttr.AsStringValuesOrDefault(resource.GetBlock("ip_rules"), "")
+		}
 	}
 
 	return keyvault.Vault{
@@ -117,6 +124,7 @@ func (a *adapter) adaptVault(resource *terraform.Block, module *terraform.Module
 		NetworkACLs: keyvault.NetworkACLs{
 			Metadata:      aclMetadata,
 			DefaultAction: defaultActionVal,
+			IpRules:       ipRulesVal,
 		},
 	}
 }

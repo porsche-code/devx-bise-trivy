@@ -33,6 +33,7 @@ type NetworkRule struct {
 	Metadata       iacTypes.Metadata
 	Bypass         []iacTypes.StringValue
 	AllowByDefault iacTypes.BoolValue
+	IpRules        iacTypes.StringValueList
 }
 
 const (

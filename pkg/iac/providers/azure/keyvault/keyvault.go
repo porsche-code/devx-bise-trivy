@@ -20,6 +20,7 @@ type Vault struct {
 type NetworkACLs struct {
 	Metadata      iacTypes.Metadata
 	DefaultAction iacTypes.StringValue
+	IpRules       iacTypes.StringValueList
 }
 
 type Key struct {
