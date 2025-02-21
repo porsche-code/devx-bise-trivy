@@ -46,6 +46,7 @@ func Test_Adapt(t *testing.T) {
 				network_rules {
 					default_action             = "Deny"
 					bypass                     = ["Metrics", "AzureServices"]
+					ip_rules                   = ["100.10.0.1"]
 				  }
 
 				enable_https_traffic_only = true
@@ -91,6 +92,7 @@ func Test_Adapt(t *testing.T) {
 									iacTypes.String("Metrics", iacTypes.NewTestMetadata()),
 									iacTypes.String("AzureServices", iacTypes.NewTestMetadata()),
 								},
+								IpRules:        iacTypes.StringValueList{iacTypes.StringTest("100.10.0.1")},
 								AllowByDefault: iacTypes.Bool(false, iacTypes.NewTestMetadata()),
 							},
 							{
@@ -128,8 +130,9 @@ func Test_Adapt(t *testing.T) {
 			name: "orphans",
 			terraform: `
 			resource "azurerm_storage_account_network_rules" "test" {
-				default_action             = "Allow"
+				default_action             = "Deny"
 				bypass                     = ["Metrics"]
+				ip_rules                   = ["100.10.0.1"]
 			  }
 
 			  resource "azurerm_storage_container" "example" {
@@ -147,7 +150,8 @@ func Test_Adapt(t *testing.T) {
 								Bypass: []iacTypes.StringValue{
 									iacTypes.String("Metrics", iacTypes.NewTestMetadata()),
 								},
-								AllowByDefault: iacTypes.Bool(true, iacTypes.NewTestMetadata()),
+								IpRules:        iacTypes.StringValueList{iacTypes.StringTest("100.10.0.1")},
+								AllowByDefault: iacTypes.Bool(false, iacTypes.NewTestMetadata()),
 							},
 						},
 						QueueProperties: storage.QueueProperties{
@@ -202,6 +206,7 @@ func TestLines(t *testing.T) {
 		network_rules {
 			default_action             = "Deny"
 			bypass                     = ["Metrics", "AzureServices"]
+			ip_rules                   = ["100.10.0.1"]
 		  }
 	  }
 
@@ -226,7 +231,7 @@ func TestLines(t *testing.T) {
 	account := adapted.Accounts[0]
 
 	assert.Equal(t, 7, account.Metadata.Range().GetStartLine())
-	assert.Equal(t, 27, account.Metadata.Range().GetEndLine())
+	assert.Equal(t, 28, account.Metadata.Range().GetEndLine())
 
 	assert.Equal(t, 10, account.EnforceHTTPS.GetMetadata().Range().GetStartLine())
 	assert.Equal(t, 10, account.EnforceHTTPS.GetMetadata().Range().GetEndLine())
@@ -241,27 +246,27 @@ func TestLines(t *testing.T) {
 	assert.Equal(t, 20, account.QueueProperties.EnableLogging.GetMetadata().Range().GetEndLine())
 
 	assert.Equal(t, 23, account.NetworkRules[0].Metadata.Range().GetStartLine())
-	assert.Equal(t, 26, account.NetworkRules[0].Metadata.Range().GetEndLine())
+	assert.Equal(t, 27, account.NetworkRules[0].Metadata.Range().GetEndLine())
 
-	assert.Equal(t, 24, account.NetworkRules[0].AllowByDefault.GetMetadata().Range().GetStartLine())
-	assert.Equal(t, 24, account.NetworkRules[0].AllowByDefault.GetMetadata().Range().GetEndLine())
+	assert.Equal(t, 23, account.NetworkRules[0].AllowByDefault.GetMetadata().Range().GetStartLine())
+	assert.Equal(t, 27, account.NetworkRules[0].AllowByDefault.GetMetadata().Range().GetEndLine())
 
 	assert.Equal(t, 25, account.NetworkRules[0].Bypass[0].GetMetadata().Range().GetStartLine())
 	assert.Equal(t, 25, account.NetworkRules[0].Bypass[0].GetMetadata().Range().GetEndLine())
 
-	assert.Equal(t, 29, account.NetworkRules[1].Metadata.Range().GetStartLine())
-	assert.Equal(t, 35, account.NetworkRules[1].Metadata.Range().GetEndLine())
+	assert.Equal(t, 30, account.NetworkRules[1].Metadata.Range().GetStartLine())
+	assert.Equal(t, 36, account.NetworkRules[1].Metadata.Range().GetEndLine())
 
-	assert.Equal(t, 33, account.NetworkRules[1].AllowByDefault.GetMetadata().Range().GetStartLine())
-	assert.Equal(t, 33, account.NetworkRules[1].AllowByDefault.GetMetadata().Range().GetEndLine())
+	assert.Equal(t, 34, account.NetworkRules[1].AllowByDefault.GetMetadata().Range().GetStartLine())
+	assert.Equal(t, 34, account.NetworkRules[1].AllowByDefault.GetMetadata().Range().GetEndLine())
 
-	assert.Equal(t, 34, account.NetworkRules[1].Bypass[0].GetMetadata().Range().GetStartLine())
-	assert.Equal(t, 34, account.NetworkRules[1].Bypass[0].GetMetadata().Range().GetEndLine())
+	assert.Equal(t, 35, account.NetworkRules[1].Bypass[0].GetMetadata().Range().GetStartLine())
+	assert.Equal(t, 35, account.NetworkRules[1].Bypass[0].GetMetadata().Range().GetEndLine())
 
-	assert.Equal(t, 37, account.Containers[0].Metadata.Range().GetStartLine())
-	assert.Equal(t, 41, account.Containers[0].Metadata.Range().GetEndLine())
+	assert.Equal(t, 38, account.Containers[0].Metadata.Range().GetStartLine())
+	assert.Equal(t, 42, account.Containers[0].Metadata.Range().GetEndLine())
 
-	assert.Equal(t, 40, account.Containers[0].PublicAccess.GetMetadata().Range().GetStartLine())
-	assert.Equal(t, 40, account.Containers[0].PublicAccess.GetMetadata().Range().GetEndLine())
+	assert.Equal(t, 41, account.Containers[0].PublicAccess.GetMetadata().Range().GetStartLine())
+	assert.Equal(t, 41, account.Containers[0].PublicAccess.GetMetadata().Range().GetEndLine())
 
 }

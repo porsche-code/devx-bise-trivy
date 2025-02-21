@@ -31,6 +31,7 @@ func Test_Adapt(t *testing.T) {
 				network_acls {
 					bypass = "AzureServices"
 					default_action = "Deny"
+					ip_rules = ["100.10.0.1"]
 				}
 			}
 `,
@@ -43,6 +44,7 @@ func Test_Adapt(t *testing.T) {
 						NetworkACLs: keyvault.NetworkACLs{
 							Metadata:      iacTypes.NewTestMetadata(),
 							DefaultAction: iacTypes.String("Deny", iacTypes.NewTestMetadata()),
+							IpRules:       iacTypes.StringValueList{iacTypes.StringTest("100.10.0.1")},
 						},
 					},
 				},
@@ -63,6 +65,7 @@ func Test_Adapt(t *testing.T) {
 						NetworkACLs: keyvault.NetworkACLs{
 							Metadata:      iacTypes.NewTestMetadata(),
 							DefaultAction: iacTypes.String("", iacTypes.NewTestMetadata()),
+							IpRules:       iacTypes.StringValueList{},
 						},
 					},
 				},

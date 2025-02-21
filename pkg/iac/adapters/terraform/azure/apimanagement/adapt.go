@@ -24,6 +24,16 @@ func adaptService(resource *terraform.Block, module *terraform.Module) apimanage
 	var service apimanagement.Service
 	var security apimanagement.Security
 
+	service = apimanagement.Service{
+		Metadata:          resource.GetMetadata(),
+		ResourceGroupName: resource.GetAttribute("resource_group_name").AsStringValueOrDefault("", resource),
+		PublisherName:     resource.GetAttribute("publisher_name").AsStringValueOrDefault("", resource),
+		PublisherEMail:    resource.GetAttribute("publisher_email").AsStringValueOrDefault("", resource),
+		SkuName:           resource.GetAttribute("sku_name").AsStringValueOrDefault("", resource),
+		Name:              resource.GetAttribute("name").AsStringValueOrDefault("", resource),
+		Location:          resource.GetAttribute("location").AsStringValueOrDefault("", resource),
+	}
+
 	if resource.HasChild("security") {
 		securityBlock := resource.GetBlock("security")
 		security = apimanagement.Security{
@@ -46,19 +56,8 @@ func adaptService(resource *terraform.Block, module *terraform.Module) apimanage
 			TlsRsaWithAes256CbcShaCiphersEnabled:        securityBlock.GetAttribute("tls_rsa_with_aes256_cbc_sha_ciphers_enabled").AsBoolValueOrDefault(false, securityBlock),
 			TripleDesCiphersEnabled:                     securityBlock.GetAttribute("triple_des_ciphers_enabled").AsBoolValueOrDefault(false, securityBlock),
 		}
-	} else {
-		security = apimanagement.Security{}
+		service.Security = security
 	}
 
-	service = apimanagement.Service{
-		Metadata:          resource.GetMetadata(),
-		ResourceGroupName: resource.GetAttribute("resource_group_name").AsStringValueOrDefault("", resource),
-		PublisherName:     resource.GetAttribute("publisher_name").AsStringValueOrDefault("", resource),
-		PublisherEMail:    resource.GetAttribute("publisher_email").AsStringValueOrDefault("", resource),
-		SkuName:           resource.GetAttribute("sku_name").AsStringValueOrDefault("", resource),
-		Name:              resource.GetAttribute("name").AsStringValueOrDefault("", resource),
-		Location:          resource.GetAttribute("location").AsStringValueOrDefault("", resource),
-		Security:          security,
-	}
 	return service
 }
