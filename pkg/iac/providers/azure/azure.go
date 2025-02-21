@@ -1,6 +1,7 @@
 package azure
 
 import (
+	"github.com/aquasecurity/trivy/pkg/iac/providers/azure/apimanagement"
 	"github.com/aquasecurity/trivy/pkg/iac/providers/azure/appservice"
 	"github.com/aquasecurity/trivy/pkg/iac/providers/azure/authorization"
 	"github.com/aquasecurity/trivy/pkg/iac/providers/azure/compute"
@@ -17,6 +18,7 @@ import (
 )
 
 type Azure struct {
+	ApiManagement  apimanagement.ApiManagement
 	AppService     appservice.AppService
 	Authorization  authorization.Authorization
 	Compute        compute.Compute

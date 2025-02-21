@@ -4417,6 +4417,10 @@
     "github.com.aquasecurity.trivy.pkg.iac.providers.azure.Azure": {
       "type": "object",
       "properties": {
+        "apimanagement": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.providers.azure.apimanagement.ApiManagement"
+        },
         "appservice": {
           "type": "object",
           "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.providers.azure.appservice.AppService"
@@ -4468,6 +4472,132 @@
         "synapse": {
           "type": "object",
           "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.providers.azure.synapse.Synapse"
+        }
+      }
+    },
+    "github.com.aquasecurity.trivy.pkg.iac.providers.azure.apimanagement.ApiManagement": {
+      "type": "object",
+      "properties": {
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.providers.azure.apimanagement.Service"
+          }
+        }
+      }
+    },
+    "github.com.aquasecurity.trivy.pkg.iac.providers.azure.apimanagement.Security": {
+      "type": "object",
+      "properties": {
+        "__defsec_metadata": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.Metadata"
+        },
+        "enablebackendssl30": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "enablebackendtls10": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "enablebackendtls11": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "enablefrontendssl30": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "enablefrontendtls10": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "enablefrontendtls11": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "tlsecdheecdsawithaes128cbcshaciphersenabled": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "tlsecdheecdsawithaes256cbcshaciphersenabled": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "tlsecdhersawithaes128cbcshaciphersenabled": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "tlsecdhersawithaes256cbcshaciphersenabled": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "tlsrsawithaes128cbcsha256ciphersenabled": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "tlsrsawithaes128cbcshaciphersenabled": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "tlsrsawithaes128gcmsha256ciphersenabled": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "tlsrsawithaes256cbcsha256ciphersenabled": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "tlsrsawithaes256cbcshaciphersenabled": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "tlsrsawithaes256gcmsha384ciphersenabled": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
+        "tripledesciphersenabled": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        }
+      }
+    },
+    "github.com.aquasecurity.trivy.pkg.iac.providers.azure.apimanagement.Service": {
+      "type": "object",
+      "properties": {
+        "__defsec_metadata": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.Metadata"
+        },
+        "location": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.StringValue"
+        },
+        "name": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.StringValue"
+        },
+        "publisheremail": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.StringValue"
+        },
+        "publishername": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.StringValue"
+        },
+        "resourcegroupname": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.StringValue"
+        },
+        "security": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.providers.azure.apimanagement.Security"
+        },
+        "skuname": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.StringValue"
         }
       }
     },
