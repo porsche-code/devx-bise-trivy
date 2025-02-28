@@ -153,6 +153,7 @@ func adaptContainer(resource *terraform.Block) storage.Container {
 func adaptNetworkRule(resource *terraform.Block) storage.NetworkRule {
 	var allowByDefault iacTypes.BoolValue
 	var bypass []iacTypes.StringValue
+	var ipRules iacTypes.StringValueList
 
 	defaultActionAttr := resource.GetAttribute("default_action")
 
@@ -167,9 +168,17 @@ func adaptNetworkRule(resource *terraform.Block) storage.NetworkRule {
 		bypass = bypassAttr.AsStringValues()
 	}
 
+	if resource.HasChild("ip_rules") {
+		ipRulesAttr := resource.GetAttribute("ip_rules")
+		ipRules = ipRulesAttr.AsStringValues()
+		// Allow by default has to be false ("Deny") if defining ip_rules.
+		allowByDefault = iacTypes.BoolDefault(false, resource.GetMetadata())
+	}
+
 	return storage.NetworkRule{
 		Metadata:       resource.GetMetadata(),
 		Bypass:         bypass,
 		AllowByDefault: allowByDefault,
+		IpRules:        ipRules,
 	}
 }

@@ -1,6 +1,7 @@
 package azure
 
 import (
+	"github.com/aquasecurity/trivy/pkg/iac/adapters/terraform/azure/apimanagement"
 	"github.com/aquasecurity/trivy/pkg/iac/adapters/terraform/azure/appservice"
 	"github.com/aquasecurity/trivy/pkg/iac/adapters/terraform/azure/authorization"
 	"github.com/aquasecurity/trivy/pkg/iac/adapters/terraform/azure/compute"
@@ -20,6 +21,7 @@ import (
 
 func Adapt(modules terraform.Modules) azure.Azure {
 	return azure.Azure{
+		ApiManagement:  apimanagement.Adapt(modules),
 		AppService:     appservice.Adapt(modules),
 		Authorization:  authorization.Adapt(modules),
 		Compute:        compute.Adapt(modules),
